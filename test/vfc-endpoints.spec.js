@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const { makeUsersArray } = require('./vfc.fixtures')
 const { makeCharactersArray } = require('./vfc.fixtures')
-const { makeMatchesArray } = require('./vfc.fixtures')
+// const { makeMatchesArray } = require('./vfc.fixtures')
 
 describe.only('VFC Endpoints', function() {
     let db
@@ -35,10 +35,10 @@ describe.only('VFC Endpoints', function() {
             it(`responds with 400`)
         })
     })
-    
-    describe(`POST /users`, () => {
+    // GET USERS!!
+    describe.only(`POST /users`, () => {
         context(`given data in the database`, () => {
-            const testUsers = makeUsersArray
+            const testUsers = makeUsersArray()
             beforeEach('insert users', () => {
                 return db
                     .into('users')
@@ -49,24 +49,27 @@ describe.only('VFC Endpoints', function() {
             it(`responds with 400 if username is not provided`, ()=>{
                 const testUser = {
                     username: '',
-                    passw: 'hello123!',
-                    login: true
+                    passw: 'hello123!'
                 }
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(400,{
                         error: { 
                             message: `Username is required`}
                         })
+                    .expect(res =>{
+                        console.log(res)
+                    })
             })
             it(`responds with 400 if password is not provided`,()=>{
                 const testUser = {
                     username: 'username',
-                    passw: '',
-                    login: true
+                    passw: ''
                 }
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(400,{
                         error: { 
                             message: `Password is required`}
@@ -75,11 +78,11 @@ describe.only('VFC Endpoints', function() {
             it(`responds with 400 if username does not meet parameters`,()=>{
                 const testUser = {
                     username: 'us',
-                    passw: 'hello123!',
-                    login: true
+                    passw: 'hello123!'
                 }
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(400,{
                         error: { 
                             message: `Username must be between 6 and 20 characters`}
@@ -88,11 +91,11 @@ describe.only('VFC Endpoints', function() {
             it(`responds with 400 if password does not meet parameters`,()=>{
                 const testUser = {
                     username: 'username',
-                    passw: 'hello',
-                    login: true
+                    passw: 'hello'
                 }
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(400,{
                         error: { 
                             message: 'Password must be contain at least one digit and one special character'}
@@ -100,10 +103,11 @@ describe.only('VFC Endpoints', function() {
             })
 
             it(`responds with 400 if username already exists`, ()=>{
-                const testUsers = makeUsersArray
+                const testUsers = makeUsersArray()
                 const testUser = testUsers[0]
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(400,{
                         error: { 
                             message: `username is already in use, pick another name`}
@@ -113,11 +117,11 @@ describe.only('VFC Endpoints', function() {
             it(`responds with 201 when user is successfully created`,()=>{
                 const testUser = {
                     username: 'username',
-                    passw: 'hello123!',
-                    login: true
+                    passw: 'hello123!'
                 }
                 return supertest(app)
-                    .post(testUser)
+                    .post('/users')
+                    .send(testUser)
                     .expect(201)
                     .expect(res=>{
                         expect(res.body.username).to.eql(testUser.username)
@@ -131,7 +135,7 @@ describe.only('VFC Endpoints', function() {
     // might need to change endpoint to /users/:id
     describe(`DELETE /users`, () => {
         context(`given data in the database`, () => {
-            const testUsers = makeUsersArray
+            const testUsers = makeUsersArray()
             beforeEach('insert users', () => {
                 return db
                     .into('users')
@@ -184,7 +188,7 @@ describe.only('VFC Endpoints', function() {
         })
 
         context('Given there are characters in the database', () => {
-            const testCharacters = makeCharactersArray
+            const testCharacters = makeCharactersArray()
             
             beforeEach('insert characters', () => {
             return db
@@ -329,7 +333,7 @@ describe.only('VFC Endpoints', function() {
     describe(`DELETE /characters`,()=>{
 
         context(`Given characters in the database`,()=>{ 
-            const testCharacters = makeCharactersArray
+            const testCharacters = makeCharactersArray()
             beforeEach('insert characters', () => {
                 return db
                     .into('characters')
@@ -511,7 +515,7 @@ describe.only('VFC Endpoints', function() {
         })
 
         context('Given there are characters in the database', () => {
-            const testCharacters = makeCharactersArray
+            const testCharacters = makeCharactersArray()
             
             beforeEach('insert characters', () => {
             return db

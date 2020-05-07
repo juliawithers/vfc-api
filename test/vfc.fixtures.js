@@ -2,24 +2,28 @@ function makeUsersArray() {
     return [
       {
         id: 1,
+        auth: 'randomAuth1',
         username: 'test-user-1',
-        password: 'password1!',
+        passw: 'password1!',
         date_created: '2029-01-22T16:28:32.615Z',
       },
       {
         id: 2,
+        auth: 'randomAuth2',
         username: 'test-user-2',
         passw: 'password2!',
         date_created: '2029-01-22T16:28:32.615Z',
       },
       {
         id: 3,
+        auth: 'randomAuth3',
         username: 'test-user-3',
         passw: 'password3!',
         date_created: '2029-01-22T16:28:32.615Z',
       },
       {
         id: 4,
+        auth: 'randomAuth4',
         username: 'test-user-4',
         passw: 'password4!',
         date_created: '2029-01-22T16:28:32.615Z',
@@ -134,7 +138,7 @@ function makeMatchesArray() {
     ]
 }
 
-module.expport = {
+module.exports = {
     makeUsersArray,
     makeCharactersArray,
     makeMatchesArray

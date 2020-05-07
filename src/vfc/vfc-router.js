@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-// const uuid = require('uuid/v4')
+const { uuid } = require('uuidv4')
 const logger = require('../logger')
 const vfcRouter = express.Router()
 const VfcService = require('./vfc-service')
@@ -92,6 +92,7 @@ vfcRouter
 
     console.log(username, passw)
     const newUser = {
+        auth: uuid(),
         username: username, 
         passw: passw
     }
@@ -103,6 +104,13 @@ vfcRouter
           })
     }
 
+    if (!passw) {
+        return res
+            .status(400).json({
+                error: { message: `Password is required`}
+            })
+    }   
+
     if (username.length < 4 || username.length > 12) {
         return res
             .status(400).json({
@@ -110,12 +118,7 @@ vfcRouter
             })       
     }
 
-    if (!passw) {
-    return res
-        .status(400).json({
-            error: { message: `Password is required`}
-        })
-    }  
+    
     // password contains digit, one special character, and is between 7 and 15 characters long, using a regex here
     if (!passw.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
         return res
