@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs')
+const xss = require('xss')
+
 const VfcService = {
     getAllUsers(knex) {
         // return all characters
@@ -5,7 +8,8 @@ const VfcService = {
     },
     getAllCharacters(knex) {
         // return all characters
-        return knex.select('*').from('characters')
+        const characters = knex.select('*').from('characters')
+        return characters
     },
     getAllMatches(knex) {
         // return all match data
@@ -13,7 +17,7 @@ const VfcService = {
         return knex.select('*').from('matches')
     },
     insertUser(knex, newUser) {
-        // insert new user data
+        // insert new user data   
         return knex 
             .insert(newUser)
             .into('users')
@@ -42,8 +46,14 @@ const VfcService = {
                 return rows[0]
             })
     },
+    getByUsername(knex, username) {
+        return knex
+            .from('users')
+            .select('*')
+            .where('username', username)
+            .first()
+    },
     getById(knex, id) {
-        // get user by id - do I need this?
         return knex
             .from('users')
             .select('*')
@@ -63,6 +73,7 @@ const VfcService = {
             .from('characters')
             .select('*')
             .where('user_id', user_id)
+            .first()
     },
     deleteUser(knex, id) {
         // delete user by id
@@ -81,7 +92,44 @@ const VfcService = {
         return knex('characters')
             .where({ user_id })
             .update(newCharacterFields)
+            
     },
+    hashPassword(password) {
+        return bcrypt.hash(password, 12)
+    },
+    comparePassword(enteredPassword, hashedPassword) {
+        return bcrypt.compare(enteredPassword, hashedPassword)
+    },
+    cleanCharacter(character) {
+        console.log('service character= '+character)
+        const char = {
+            id: character.id,           
+            auth: character.auth,
+            username: xss(character.username),
+            user_id: character.user_id,
+            char_name: xss(character.char_name),
+            strength: xss(character.strength),
+            intelligence: xss(character.intelligence),
+            charisma: xss(character.charisma),
+            agility: xss(character.agility),
+            current_level: character.current_level,
+            current_points: character.current_points,
+            wins: character.wins,
+            losses: character.losses,
+            attrpoints: character.attrpoints
+        }
+        console.log(char)
+        return char
+    },
+    cleanUsers(user) {
+        return {
+            id: user.id,
+            auth: user.auth,
+            username: xss(user.username),
+            passw: xss(user.passw),
+            date_created: user.date_created
+        }
+    }
 }
 
 module.exports = VfcService

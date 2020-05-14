@@ -36,7 +36,7 @@ function makeCharactersArray() {
        
         {
             id: 1,
-            auth: 'someauth1',
+            auth: 'randomAuth1',
             username: 'test-user-1',
             user_id: 1,
             char_name: 'test-Char-1',
@@ -48,11 +48,11 @@ function makeCharactersArray() {
             current_points: 0,
             wins: 0,
             losses: 0,
-            attrPoints: 0,
+            attrpoints: 0,
         },
         {
             id: 2,
-            auth: 'someauth2',
+            auth: 'randomAuth2',
             username: 'test-user-2',
             user_id: 2,
             char_name: 'test-Char-2',
@@ -64,11 +64,11 @@ function makeCharactersArray() {
             current_points: 0,
             wins: 0,
             losses: 0,
-            attrPoints: 0,
+            attrpoints: 0,
         },
         {
             id: 3,
-            auth: 'someauth3',
+            auth: 'randomAuth3',
             username: 'test-user-3',
             user_id: 3,
             char_name: 'test-Char-3',
@@ -80,11 +80,11 @@ function makeCharactersArray() {
             current_points: 0,
             wins: 0,
             losses: 0,
-            attrPoints: 0,
+            attrpoints: 0,
         },
         {
             id: 4,
-            auth: 'someauth4',
+            auth: 'randomAuth4',
             username: 'test-user-4',
             user_id: 4,
             char_name: 'test-Char-4',
@@ -96,7 +96,7 @@ function makeCharactersArray() {
             current_points: 0,
             wins: 0,
             losses: 0,
-            attrPoints: 0,
+            attrpoints: 0,
         },
     ]
 }
@@ -112,7 +112,7 @@ function makeMatchesArray() {
         points: 2
       },
       {
-        id: 1,
+        id: 2,
         char_1_id: 2,
         char_2_id: 1,
         winner: 'test-user-1',
@@ -120,7 +120,7 @@ function makeMatchesArray() {
         points: 2
       },
       {
-        id: 1,
+        id: 3,
         char_1_id: 2,
         char_2_id: 1,
         winner: 'test-user-1',
@@ -128,7 +128,7 @@ function makeMatchesArray() {
         points: 2
       },
       {
-        id: 1,
+        id: 4,
         char_1_id: 2,
         char_2_id: 1,
         winner: 'test-user-1',

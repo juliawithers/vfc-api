@@ -7,7 +7,7 @@ describe('Auth Endpoints', function () {
 
     const  testUsers  = helpers.makeUsersFixtures()
    
-    console.log(testUsers)
+    // console.log(testUsers)
     const testUser = testUsers[0]
 
     before('make knex instance', () => {

@@ -81,13 +81,7 @@ returns:
 .delete:
 body: 
 {
-    "user": {
-        "id": user.id,
-        "auth": user.auth,
-        "username": user.username,
-        "passw": user.passw,
-        "date_created": user.date_created
-    }
+    "user_id": user.id
 }
 returns:
 {
