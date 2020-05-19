@@ -19,6 +19,7 @@ vfcRouter
         const passw = loginInfo.password;
         const knexInstance = req.app.get('db')
 
+        console.log(username +' and '+ passw)
         // validation code here
         if (!username) {
             return res
@@ -40,7 +41,8 @@ vfcRouter
                         error: { message: `Username or password is incorrect, please try again` }
                     })
                 }
-                
+                console.log(user)
+                // the issue is that passw is being hashed, how can I hash the seeding? 
                 VfcService.comparePassword(passw, user.passw)
                     .then(match => {
                         if (!match) {
@@ -51,25 +53,17 @@ vfcRouter
                         }
                         res
                             .status(201)
-                            .json({ user })
+                            .json({
+                                login: true, 
+                                user: {
+                                    id: user.id,
+                                    auth: user.auth,
+                                    username: user.username
+                                }})
                         // create auth token???
 
                     })
                     .catch(next)
-            })
-            .catch(next)
-        VfcService.getIdByLogin(knexInstance, username, passw)
-            .then(user => {
-                if (!user) {
-                    logger.error(`User with username ${username} and password ${passw} not found`)
-                    return res.status(404).json({
-                        error: { message: `Please verify login information` }
-                    })
-                }
-                res.json({
-                    login: true,
-                    user: user[0]
-                })
             })
             .catch(next)
     })
@@ -251,7 +245,11 @@ vfcRouter
         }
 
         if (current_level === 0 && current_points === 0) {
-            VfcService.insertCharacter(knexInstance, character)
+            const newChar = {
+                ...character,
+                attrpoints: 0
+            }
+            VfcService.insertCharacter(knexInstance, newChar)
                 .then(character => {
                     logger.info(`Character with name ${char_name} was created for user ${user_id}`)
                     return res

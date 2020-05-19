@@ -101,25 +101,22 @@ const VfcService = {
         return bcrypt.compare(enteredPassword, hashedPassword)
     },
     cleanCharacter(character) {
-        console.log('service character= '+character)
-        const char = {
+        return {
             id: character.id,           
             auth: character.auth,
             username: xss(character.username),
             user_id: character.user_id,
             char_name: xss(character.char_name),
-            strength: xss(character.strength),
-            intelligence: xss(character.intelligence),
-            charisma: xss(character.charisma),
-            agility: xss(character.agility),
+            strength: character.strength,
+            intelligence: character.intelligence,
+            charisma: character.charisma,
+            agility: character.agility,
             current_level: character.current_level,
             current_points: character.current_points,
             wins: character.wins,
             losses: character.losses,
             attrpoints: character.attrpoints
         }
-        console.log(char)
-        return char
     },
     cleanUsers(user) {
         return {
