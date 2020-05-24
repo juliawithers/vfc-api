@@ -8,8 +8,6 @@ const xss = require('xss')
 
 const bodyParser = express.json()
 
-// Create logout endpoint as well!
-
 vfcRouter
     .route('/login')
     .post(bodyParser, (req, res, next) => {
@@ -24,13 +22,13 @@ vfcRouter
         if (!username) {
             return res
                 .status(400)
-                .send('Username required');
+                .send({error: { message: 'Username required'}});
         }
 
         if (!passw) {
             return res
                 .status(400)
-                .send('Password required');
+                .send({error: { message: 'Password required'}});
         }
 
         VfcService.getByUsername(knexInstance, username)
@@ -48,7 +46,7 @@ vfcRouter
                         if (!match) {
                             logger.error(`wrong password entered for user ${username}`)
                             return res.status(400).json({
-                                error: `Username or password is incorrect, please try again`
+                                error: {message: `Username or password is incorrect, please try again`}
                             })
                         }
                         res
@@ -263,6 +261,7 @@ vfcRouter
         // WORKS
         // receives id from the character table
         const knexInstance = req.app.get('db')
+        console.log(req.body.id)
         VfcService.deleteCharacter(knexInstance, req.body.id)
             .then(character => {             
                 if (!character) {
@@ -294,10 +293,10 @@ vfcRouter
                 error: { message: `You cannot include characters in your submission, please ensure that the attribute points are numbers.` }
             })
         }
-
-        if (current_points > 0 && current_points % 50 === 0) {
-            let newLevel = (current_points / 50);
-            
+        // just use modulus 50 
+        // if (Math.floor(current_points % 50) === 0) {
+            let newLevel = Math.floor(current_points/50);
+            console.log(newLevel)
             let newCharacterFields = {
                 ...character,
                 strength: strength,
@@ -326,21 +325,21 @@ vfcRouter
                         .json(character) 
                 })  
             .catch(next)
-        }
-        else {
-            const cleanedChar = VfcService.cleanCharacter(character)
-            VfcService.updateCharacter(knexInstance, user_id, cleanedChar)
-                .then(res => {
-                    return VfcService.getCharacterById(knexInstance, user_id)
-                })
-                .then(character => {
-                    logger.info(`character with id ${character.id} was updated`)
-                    return res
-                        .status(201)
-                        .json(character) 
-                })
-                .catch(next)
-        }
+        // }
+        // else {
+        //     const cleanedChar = VfcService.cleanCharacter(character)
+        //     VfcService.updateCharacter(knexInstance, user_id, cleanedChar)
+        //         .then(res => {
+        //             return VfcService.getCharacterById(knexInstance, user_id)
+        //         })
+        //         .then(character => {
+        //             logger.info(`character with id ${character.id} was updated`)
+        //             return res
+        //                 .status(201)
+        //                 .json(character) 
+        //         })
+        //         .catch(next)
+        // }
     })
 
 vfcRouter
