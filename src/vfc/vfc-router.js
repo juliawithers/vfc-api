@@ -4,7 +4,6 @@ const { uuid } = require('uuidv4')
 const logger = require('../logger')
 const vfcRouter = express.Router()
 const VfcService = require('./vfc-service')
-const xss = require('xss')
 
 const bodyParser = express.json()
 
@@ -16,8 +15,6 @@ vfcRouter
         const username = loginInfo.username;
         const passw = loginInfo.password;
         const knexInstance = req.app.get('db')
-
-        console.log(username +' and '+ passw)
         // validation code here
         if (!username) {
             return res
@@ -39,8 +36,6 @@ vfcRouter
                         error: { message: `Username or password is incorrect, please try again` }
                     })
                 }
-                console.log(user)
-                // the issue is that passw is being hashed, how can I hash the seeding? 
                 VfcService.comparePassword(passw, user.passw)
                     .then(match => {
                         if (!match) {
@@ -58,8 +53,6 @@ vfcRouter
                                     auth: user.auth,
                                     username: user.username
                                 }})
-                        // create auth token???
-
                     })
                     .catch(next)
             })
@@ -216,7 +209,6 @@ vfcRouter
                 res.json(characters.map(character => {
                    return VfcService.cleanCharacter(character)
                 }))
-                // res.json(characters)
             })
             .catch(next)
 
@@ -261,7 +253,6 @@ vfcRouter
         // WORKS
         // receives id from the character table
         const knexInstance = req.app.get('db')
-        console.log(req.body.id)
         VfcService.deleteCharacter(knexInstance, req.body.id)
             .then(character => {             
                 if (!character) {
@@ -293,10 +284,8 @@ vfcRouter
                 error: { message: `You cannot include characters in your submission, please ensure that the attribute points are numbers.` }
             })
         }
-        // just use modulus 50 
-        // if (Math.floor(current_points % 50) === 0) {
+      
             let newLevel = Math.floor(current_points/50);
-            console.log(newLevel)
             let newCharacterFields = {
                 ...character,
                 strength: strength,
@@ -325,21 +314,6 @@ vfcRouter
                         .json(character) 
                 })  
             .catch(next)
-        // }
-        // else {
-        //     const cleanedChar = VfcService.cleanCharacter(character)
-        //     VfcService.updateCharacter(knexInstance, user_id, cleanedChar)
-        //         .then(res => {
-        //             return VfcService.getCharacterById(knexInstance, user_id)
-        //         })
-        //         .then(character => {
-        //             logger.info(`character with id ${character.id} was updated`)
-        //             return res
-        //                 .status(201)
-        //                 .json(character) 
-        //         })
-        //         .catch(next)
-        // }
     })
 
 vfcRouter
