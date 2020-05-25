@@ -277,6 +277,7 @@ vfcRouter
         const charisma = Number(character.charisma);
         const agility = Number(character.agility);
         const current_points = Number(character.current_points);
+        const current_level = Number(character.current_level)
         const attr_points = Number(character.attrpoints);
 
         if (isNaN(strength) || isNaN(intelligence) || isNaN(charisma) || isNaN(agility)) {
@@ -285,9 +286,9 @@ vfcRouter
             })
         }
       
-            let newLevel = Math.floor(current_points/50);
-            let newCharacterFields = {
-                ...character,
+        const newLevel = Math.floor(current_points/50);
+        if (current_level !== newLevel) {
+            const newCharacterFields = {
                 strength: strength,
                 intelligence: intelligence,
                 charisma: charisma,
@@ -297,23 +298,68 @@ vfcRouter
                 attrpoints: attr_points + 10
             }
             const cleanedChar = VfcService.cleanCharacter(newCharacterFields)
-
-            VfcService.updateCharacter(knexInstance, user_id, cleanedChar)
-                .then(res => {
-                    if (!res) {
-                        res.status(404).json({
-                            error: { message: `the character with id ${newCharacterFields.id} does not exist`}
-                        })
-                    }
-                    return VfcService.getCharacterById(knexInstance, user_id) 
-                })
-                .then(character => {
-                    logger.info(`character with id ${character.id} was updated`)
-                    res
-                        .status(201)
-                        .json(character) 
-                })  
-            .catch(next)
+            const updCharacter = {
+                strength: cleanedChar.strength,
+                intelligence: cleanedChar.intelligence,
+                charisma: cleanedChar.charisma,
+                agility: cleanedChar.agility,
+                current_points: cleanedChar.current_points,
+                current_level: newLevel,
+                attrpoints: attr_points +10
+            }
+            VfcService.updateCharacter(knexInstance, user_id, updCharacter)
+            .then(res => {
+                if (!res) {
+                    res.status(404).json({
+                        error: { message: `the character with id ${newCharacterFields.id} does not exist`}
+                    })
+                }
+                return VfcService.getCharacterById(knexInstance, user_id) 
+            })
+            .then(character => {
+                logger.info(`character with id ${character.id} was updated`)
+                res
+                    .status(201)
+                    .json(character) 
+            })  
+        .catch(next)
+        } else {
+            const newCharacterFields = {
+                strength: strength,
+                intelligence: intelligence,
+                charisma: charisma,
+                agility: agility,
+                current_points: current_points,
+                current_level: newLevel,
+                attrpoints: attr_points
+            }
+            const cleanedChar = VfcService.cleanCharacter(newCharacterFields)
+            const updCharacter = {
+                strength: cleanedChar.strength,
+                intelligence: cleanedChar.intelligence,
+                charisma: cleanedChar.charisma,
+                agility: cleanedChar.agility,
+                current_points: cleanedChar.current_points,
+                current_level: newLevel,
+                attrpoints: attr_points
+            }
+            VfcService.updateCharacter(knexInstance, user_id, updCharacter)
+            .then(res => {
+                if (!res) {
+                    res.status(404).json({
+                        error: { message: `the character with id ${newCharacterFields.id} does not exist`}
+                    })
+                }
+                return VfcService.getCharacterById(knexInstance, user_id) 
+            })
+            .then(character => {
+                logger.info(`character with id ${character.id} was updated`)
+                res
+                    .status(201)
+                    .json(character) 
+            })  
+        .catch(next)
+        }
     })
 
 vfcRouter
