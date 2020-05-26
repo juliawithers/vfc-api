@@ -1,9 +1,8 @@
 module.exports = {
     PORT: process.env.PORT || 8000,
     NODE_ENV: process.env.NODE_ENV || 'development',
-    DB_URL: "postgresql://postgres@localhost/vfc",
+    DATABASE_URL: process.env.DATABASE_URL || "postgresql://postgres@localhost/vfc",
+    TEST_DATABASE_URL="postgresql://postgres@localhost/vfc-test",
     API_TOKEN: "0810bd3e-6112-4c27-a63f-c533e885495c",
     CLIENT_ORIGIN: "http://localhost:3000"
-    
-    // "https://github.com/juliawithers/virtual-fight-club"
 }
