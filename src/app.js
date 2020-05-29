@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 // const validateBearerToken = require('./validate-bearer-token')
 const errorHandler = require('./error-handler')
