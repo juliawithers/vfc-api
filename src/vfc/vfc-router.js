@@ -279,6 +279,8 @@ vfcRouter
         const current_points = Number(character.current_points);
         const current_level = Number(character.current_level)
         const attr_points = Number(character.attrpoints);
+        const wins = Number(character.wins);
+        const losses = Number(character.losses)
 
         if (isNaN(strength) || isNaN(intelligence) || isNaN(charisma) || isNaN(agility)) {
             return res.status(400).json({
@@ -295,7 +297,9 @@ vfcRouter
                 agility: agility,
                 current_points: current_points,
                 current_level: newLevel,
-                attrpoints: attr_points + 10
+                attrpoints: attr_points + 10,
+                wins: wins,
+                losses: losses
             }
             const cleanedChar = VfcService.cleanCharacter(newCharacterFields)
             const updCharacter = {
@@ -305,7 +309,9 @@ vfcRouter
                 agility: cleanedChar.agility,
                 current_points: cleanedChar.current_points,
                 current_level: newLevel,
-                attrpoints: attr_points +10
+                attrpoints: attr_points +10,
+                wins: wins,
+                losses: losses
             }
             VfcService.updateCharacter(knexInstance, user_id, updCharacter)
             .then(res => {
@@ -331,7 +337,9 @@ vfcRouter
                 agility: agility,
                 current_points: current_points,
                 current_level: newLevel,
-                attrpoints: attr_points
+                attrpoints: attr_points,
+                wins: wins,
+                losses: losses
             }
             const cleanedChar = VfcService.cleanCharacter(newCharacterFields)
             const updCharacter = {
@@ -341,7 +349,9 @@ vfcRouter
                 agility: cleanedChar.agility,
                 current_points: cleanedChar.current_points,
                 current_level: newLevel,
-                attrpoints: attr_points
+                attrpoints: attr_points,
+                wins: wins,
+                losses: losses
             }
             VfcService.updateCharacter(knexInstance, user_id, updCharacter)
             .then(res => {
