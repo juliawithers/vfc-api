@@ -227,7 +227,7 @@ vfcRouter
         const agility = Number(character.agility);
         const current_level = Number(character.current_level);
         const current_points = Number(character.current_points);
-    
+        
         if (isNaN(strength) || isNaN(intelligence) || isNaN(charisma) || isNaN(agility)) {
             return res.status(400).json({
                 error: { message: `You cannot include characters in your submission, please ensure that the attribute points are numbers.` }
@@ -237,7 +237,6 @@ vfcRouter
         if (current_level === 0 && current_points === 0) {
             const newChar = {
                 ...character,
-                attrpoints: 0
             }
             VfcService.insertCharacter(knexInstance, newChar)
                 .then(character => {
