@@ -10,7 +10,6 @@ const bodyParser = express.json()
 vfcRouter
     .route('/login')
     .post(bodyParser, (req, res, next) => {
-        // WORKS
         const loginInfo = req.body;
         const username = loginInfo.username;
         const passw = loginInfo.password;
@@ -62,9 +61,7 @@ vfcRouter
 vfcRouter
     .route('/users')
     .get(bodyParser, (req, res, next) => {
-        // WORKS
         // receives login (true), userId, 
-        // use query for this not request body - not needed
         const knexInstance = req.app.get('db')
         if (req.query.login !== 'true') {
             return res
@@ -91,9 +88,7 @@ vfcRouter
             .catch(next)
     })
     .post(bodyParser, (req, res, next) => {
-        // WORKS
         // create new user
-        // need to create a token here for "auth"
         const knexInstance = req.app.get('db')
         const userBody = req.body;
         const username = req.body.username;
@@ -201,7 +196,6 @@ vfcRouter
 vfcRouter
     .route('/characters')
     .get((req, res, next) => {
-        // WORKS
         const knexInstance = req.app.get('db')
 
         VfcService.getAllCharacters(knexInstance)
@@ -214,7 +208,6 @@ vfcRouter
 
     })
     .post(bodyParser, (req, res, next) => {
-        // WORKS
         // receives username, all character attributes, user id, 
         const knexInstance = req.app.get('db')
         const character = req.body;
@@ -249,7 +242,6 @@ vfcRouter
         }
     })
     .delete(bodyParser, (req, res, next) => {
-        // WORKS
         // receives id from the character table
         const knexInstance = req.app.get('db')
         VfcService.deleteCharacter(knexInstance, req.body.id)
@@ -374,7 +366,6 @@ vfcRouter
 vfcRouter
     .route('/matches')
     .get((req, res, next) => {
-        // WORKS
         const knexInstance = req.app.get('db')
         VfcService.getAllMatches(knexInstance)
             .then(matches => {
@@ -383,7 +374,6 @@ vfcRouter
             .catch(next)
     })
     .post(bodyParser, (req, res, next) => {
-        // WORKS
         // put the character ids as a query
         // receives char_1_id, char_2_id, winner, loser, points
         const knexInstance = req.app.get('db');
@@ -401,10 +391,7 @@ vfcRouter
 vfcRouter
     .route('/characters/:userId')
     .get(bodyParser, (req, res, next) => {
-        // WORKS
         // receives login (true), userId, 
-        // use params for this not request body - not needed
-        // need to verify auth
         const knexInstance = req.app.get('db')
         const userId = Number(req.params.userId)
         VfcService.getById(knexInstance, userId)
@@ -424,7 +411,3 @@ vfcRouter
     })
 
 module.exports = vfcRouter
-
-
-
-
