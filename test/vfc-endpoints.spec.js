@@ -25,19 +25,41 @@ describe.only('VFC Endpoints', function() {
     afterEach('cleanup', () => db('characters').truncate())
     afterEach('cleanup', () => db('users').truncate())  
 
-    // describe(`POST /login`, () => {
-    //     context(`given username and password are provided`, () => {
-    //         it(`responds with 200 and returns true login and user object`)
-    //         it(`responds with 404 not found if user data doesn't exist`)
-    //     })
+    describe(`POST /login`, () => {
+        context(`given username and password are provided`, () => {
+            const testUsers = makeUsersArray()
+            
+            beforeEach('insert users', ()=>{
+                return db
+                .into('users')
+                .insert(testUsers) 
+            })
 
-    //     context(`given either username or password is not provided`, () =>{
-    //         it(`responds with 400`)
-    //     })
-    // })
-    // GET USERS!!
+            it(`responds with 200 and returns true login and user object`,()=>{
+                const testUser = testUsers[0];
+                const testUserObject = {
+                    username: testUser.username,
+                    passw: testUser.passw
+                }
+                return supertest(app)
+                    .post('api/vfc/login')
+                    .send(testUserObject)
+                    .expect(200)
+            })
+            it(`responds with 404 not found if user data doesn't exist`,()=>{
+                const testUserObject = {
+                    username: somerandomwrongusername,
+                    passw: somereallybadpassword
+                }
+                return supertest(app)
+                    .post('api/vfc/login')
+                    .send(testUserObject)
+                    .expect(404)
+            })
+        })
+    })
+
     describe(`POST /users`, () => {
-        // WORKS
         context(`given data in the database`, () => {
             const testUsers = makeUsersArray()
             
