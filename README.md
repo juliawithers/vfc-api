@@ -1,5 +1,9 @@
 # VFC!
 
+Link to Live App: https://virtual-fight-club.juliawithers.vercel.app
+
+Link to Client Repo: https://github.com/juliawithers/virtual-fight-club
+
 ## The Database
 The database is hosted on the heroku database addon. There are three tables: 
 
