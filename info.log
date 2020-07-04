@@ -3727,3 +3727,16 @@
 {"message":"character with id 70 was updated","level":"info"}
 {"message":"character with id 73 was updated","level":"info"}
 {"message":"character with id 70 was updated","level":"info"}
+{"message":"user information is not correct. check to make sure that username and auth are unique","level":"error"}
+{"message":"User with id 5 created","level":"info"}
+{"message":"User with id 1 was deleted along with character with id 1","level":"info"}
+{"message":"user with id 123456677 does not exist","level":"error"}
+{"message":"Character with name testy was created for user 5","level":"info"}
+{"message":"character with id 9999999 does not exist","level":"error"}
+{"message":"Character with id 1 was deleted","level":"info"}
+{"message":"Character with id 1 was deleted","level":"info"}
+{"message":"character with id 4 was updated","level":"info"}
+{"message":"character with id 4 was updated","level":"info"}
+{"message":"user with id 123456 does not exist","level":"error"}
+{"message":"user with id 123456 does not exist","level":"error"}
+{"message":"match with id 1 was added","level":"info"}

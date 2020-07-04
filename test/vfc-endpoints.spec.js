@@ -540,7 +540,7 @@ describe.only('VFC Endpoints', function() {
                     // .expect(200, expectedCharacter)
                     .expect(200)
                     .expect(res =>{
-                        expect(res.body.auth).to.eql(expectedCharacter.auth)
+                         expect(res.body.auth).to.eql(expectedCharacter.auth)
                         expect(res.body.username).to.eql(expectedCharacter.username)
                         expect(res.body.user_id).to.eql(expectedCharacter.user_id)
                         expect(res.body.char_name).to.eql(expectedCharacter.char_name)
